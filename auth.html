@@ -49,4 +49,288 @@
 <script type="module" src="js/auth.js"></script>
 
 </body>
+=======
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <title>Login</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+
+<body class="bg-gray-100 flex items-center justify-center min-h-screen">
+
+<div class="bg-white p-6 rounded shadow w-80">
+  <h2 id="title" class="text-xl font-bold mb-4 text-center">Login</h2>
+
+  <!-- LOGIN -->
+  <div id="loginForm">
+    <input id="loginEmail" placeholder="Email" class="border p-2 w-full mb-2">
+    <input id="loginPassword" type="password" placeholder="Password" class="border p-2 w-full mb-2">
+
+    <button onclick="login()" class="bg-blue-500 text-white w-full py-2 rounded">
+      Login
+    </button>
+
+    <button onclick="loginGoogle()" class="mt-2 border w-full py-2 rounded">
+      Login Google
+    </button>
+
+    <p class="text-sm mt-3 text-center">
+      Belum punya akun? 
+      <span onclick="showRegister()" class="text-blue-500 cursor-pointer">Daftar</span>
+    </p>
+  </div>
+
+  <!-- REGISTER -->
+  <div id="registerForm" class="hidden">
+    <input id="regEmail" placeholder="Email" class="border p-2 w-full mb-2">
+    <input id="regPassword" type="password" placeholder="Password" class="border p-2 w-full mb-2">
+
+    <button onclick="register()" class="bg-green-500 text-white w-full py-2 rounded">
+      Daftar
+    </button>
+
+    <p class="text-sm mt-3 text-center">
+      Sudah punya akun? 
+      <span onclick="showLogin()" class="text-blue-500 cursor-pointer">Login</span>
+    </p>
+  </div>
+</div>
+
+<script type="module">
+
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+
+import { 
+  getAuth, 
+  signInWithEmailAndPassword,
+  createUserWithEmailAndPassword,
+  signInWithPopup,
+  GoogleAuthProvider,
+  onAuthStateChanged,
+  signOut
+} from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+
+import { 
+  getFirestore, 
+  doc, 
+  setDoc,
+  getDoc
+} from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+
+const firebaseConfig = {
+  apiKey: "AIzaSyCU-cFfdkTw4m3CBVW2Ng_pOXz8ivvIU4E",
+  authDomain: "temperedlist.firebaseapp.com",
+  projectId: "temperedlist"
+};
+
+const app = initializeApp(firebaseConfig);
+
+const auth = getAuth(app);
+const db = getFirestore(app);
+
+const provider = new GoogleAuthProvider();
+
+
+// ================= AUTO REDIRECT =================
+onAuthStateChanged(auth, async (user) => {
+
+  if (!user) return;
+
+  try {
+
+    const userRef = doc(db, "users", user.uid);
+
+    const snap = await getDoc(userRef);
+
+    if (!snap.exists()) return;
+
+    const data = snap.data();
+
+    // 🚫 belum disetujui admin
+    if (data.status !== "active") {
+
+      alert("Akun belum diverifikasi admin!");
+
+      await signOut(auth);
+
+      return;
+    }
+
+    // ✅ boleh masuk
+    window.location.href = "index.html";
+
+  } catch (e) {
+
+    console.error(e);
+
+  }
+
+});
+
+
+// ================= LOGIN EMAIL =================
+window.login = async function () {
+
+  try {
+
+    const email = loginEmail.value.trim();
+
+    const pass = loginPassword.value.trim();
+
+    if (!email || !pass) {
+      alert("Isi email & password!");
+      return;
+    }
+
+    await signInWithEmailAndPassword(auth, email, pass);
+
+  } catch (e) {
+
+    console.error(e);
+
+    alert(e.message);
+
+  }
+
+};
+
+
+// ================= REGISTER =================
+window.register = async function () {
+
+  try {
+
+    const email = regEmail.value.trim();
+
+    const pass = regPassword.value.trim();
+
+    if (!email || !pass) {
+
+      alert("Email & Password wajib diisi!");
+
+      return;
+
+    }
+
+    // buat akun auth
+    const res = await createUserWithEmailAndPassword(
+      auth,
+      email,
+      pass
+    );
+
+    // simpan firestore
+    await setDoc(doc(db, "users", res.user.uid), {
+
+      email: email,
+
+      role: "karyawan",
+
+      status: "pending",
+
+      createdAt: new Date()
+
+    });
+
+    alert("Daftar berhasil! Tunggu approval admin.");
+
+    showLogin();
+
+  } catch (e) {
+
+    console.error(e);
+
+    alert(e.message);
+
+  }
+
+};
+
+
+// ================= LOGIN GOOGLE =================
+window.loginGoogle = async function () {
+
+  try {
+
+    const res = await signInWithPopup(auth, provider);
+
+    const userRef = doc(db, "users", res.user.uid);
+
+    const snap = await getDoc(userRef);
+
+    // user baru
+    if (!snap.exists()) {
+
+      await setDoc(userRef, {
+
+        email: res.user.email,
+
+        role: "karyawan",
+
+        status: "pending",
+
+        createdAt: new Date()
+
+      });
+
+      alert("Akun dibuat! Tunggu approval admin.");
+
+      await signOut(auth);
+
+      return;
+
+    }
+
+    const data = snap.data();
+
+    if (data.status !== "active") {
+
+      alert("Akun belum diverifikasi admin!");
+
+      await signOut(auth);
+
+      return;
+
+    }
+
+    window.location.href = "index.html";
+
+  } catch (e) {
+
+    console.error(e);
+
+    alert(e.message);
+
+  }
+
+};
+
+
+// ================= UI =================
+window.showRegister = () => {
+
+  loginForm.classList.add("hidden");
+
+  registerForm.classList.remove("hidden");
+
+  title.innerText = "Daftar";
+
+};
+
+window.showLogin = () => {
+
+  loginForm.classList.remove("hidden");
+
+  registerForm.classList.add("hidden");
+
+  title.innerText = "Login";
+
+};
+
+</script>
+
+</body>
+
 </html>

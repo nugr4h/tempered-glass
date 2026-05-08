@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="id">
 <head>
@@ -276,6 +277,509 @@ class="hidden fixed inset-0 bg-gray-100 z-50 overflow-auto">
 </nav>
 
 <script type="module" src="js/app.js"></script>
+
+</body>
+=======
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Website Tempered Glass</title>
+
+  <!-- Tailwind -->
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <!-- Icon -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css">
+
+  <style>
+@keyframes scaleUp {
+  from { transform: scale(0.8); opacity: 0; }
+  to { transform: scale(1); opacity: 1; }
+}
+
+.animate-scaleUp {
+  animation: scaleUp 0.2s ease-in-out;
+}
+
+</style>
+</head>
+
+<body class="bg-gray-200">
+
+
+<main class="pt-20 md:ml-64 px-4">
+<!-- 🔝 NAVBAR -->
+<header class="fixed top-0 left-0 w-full bg-white shadow z-50">
+  <div class="flex items-center justify-between px-4 py-3">
+
+    <!-- Logo -->
+    <div class="flex items-center gap-2">
+      <img src="logo.png" class="h-8" alt="">
+      <span class="font-bold">TG Store</span>
+    </div>
+
+    <!-- Search + Profile -->
+    <div id="Glass" class="flex items-center gap-3">
+
+      <!-- Search -->
+      <div class="hidden md:block">
+        <input 
+          type="text" 
+          placeholder="Cari HP..." 
+          class="border rounded-lg px-3 py-1 text-sm"
+        >
+      </div>
+
+      <!-- Icon Search Mobile -->
+      <i class="bi bi-search text-xl md:hidden"></i>
+
+      <!-- Profile -->
+        <div id="profileArea" class="flex items-center gap-2 rounded">
+         <!-- nanti diisi otomatis oleh Firebase -->
+        </div>
+    </div>
+
+  </div>
+</header>
+
+<!-- 📦 CONTENT -->
+
+
+</div>
+  <h1 class="text-2xl font-bold mb-4">Daftar Tempered Glass</h1>
+
+  <!-- Contoh Card -->
+  <div class=" grid gap-4">
+
+    <button id="btnTambah" style="display: none;" onclick="toggleForm()" class="flex justify-center bg-green-500 text-white w-80 mx-10 my-8 px-3 py-3">
+     Tambah Data
+    </button>
+
+  <div id="inputData" class="hidden bg-white p-4 rounded shadow mb-4 animate-scaleUp">
+    <input id="nama_hp" placeholder="Nama HP" class="border p-2 w-full mb-2">
+    <input id="tipe" placeholder="Tipe HP" class="border p-2 w-full mb-2">
+    <input id="layar" placeholder="Ukuran Layar (inci)" class="border p-2 w-full mb-2">
+    <input id="tempered" placeholder="Nama Tempered Glass" class="border p-2 w-full mb-2">
+
+  <button onclick="tambahData()" class="bg-green-500 text-white px-3 py-1 rounded w-full">
+    Simpan Data
+  </button>
+  <button onclick="toggleForm()" class="bg-gray-400 text-white px-3 py-1 rounded w-full mt-2">
+  Batal
+</button>
+</div>
+    <div id="dataList" class="mt-4"></div>
+
+  </div>
+ 
+
+</main>
+
+</div><!-- ⚙️ SETTINGS -->
+<div id="settingsPage"
+class="hidden fixed inset-0 bg-gray-100 z-50 overflow-auto">
+
+  <div class="bg-white p-4 shadow flex justify-between align-center">
+        <button onclick="closeSettings()"
+    class="text-3xl mx-2 font-weight-300 hover:scale-110 transition"><i class="bi bi-arrow-left-circle-fill"></i>
+    </button>
+    <h2 class="text-xl font-bold">
+      Pengaturan
+    </h2>
+      <div>  
+  </div>
+  </div>
+
+  <!-- PANEL ADMIN -->
+  <div id="adminPanel"
+  class="p-4">
+
+    <h3 class="font-bold text-lg mb-4">
+      Kelola User
+    </h3>
+
+    <div id="userList"></div>
+
+  </div>
+
+
+</div>
+
+<aside class="hidden md:flex fixed top-16 left-0 h-full w-64 bg-white shadow-lg flex-col p-4 z-40">
+
+  <!-- MENU -->
+  <div class="space-y-2">
+
+    <a href="#"
+      class="flex items-center gap-3 p-3 rounded-lg hover:bg-gray-100 transition">
+
+      <i class="bi bi-house text-lg"></i>
+      <span>Beranda</span>
+
+    </a>
+
+    <a href="#"
+      onclick="openSettings()"
+      class="flex items-center gap-3 p-3 rounded-lg hover:bg-gray-100 transition">
+
+      <i class="bi bi-gear text-lg"></i>
+      <span>Pengaturan</span>
+
+    </a>
+
+    <a href="#"
+      class="flex items-center gap-3 p-3 rounded-lg hover:bg-gray-100 transition">
+
+      <i class="bi bi-person text-lg"></i>
+      <span>Profil</span>
+
+    </a>
+
+  </div>
+
+</aside>
+
+<nav class="fixed bottom-0 left-0 w-full bg-white shadow md:hidden border-t">
+
+  <div class="flex justify-around text-center text-sm py-2">
+
+    <a href="#" class="flex flex-col items-center text-gray-700">
+      <i class="bi bi-house text-lg"></i>
+      <span>Beranda</span>
+    </a>
+
+    <a href="#" onclick="openSettings()"
+      class="flex flex-col items-center text-gray-700">
+
+      <i class="bi bi-gear text-lg"></i>
+      <span>Pengaturan</span>
+
+    </a>
+
+    <a href="#" class="flex flex-col items-center text-gray-700">
+      <i class="bi bi-person text-lg"></i>
+      <span>Profil</span>
+    </a>
+
+  </div>
+</nav>
+
+<script type="module">
+  // Import Firebase
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+  import { 
+    getAuth, 
+    signInWithPopup, 
+    GoogleAuthProvider,
+    onAuthStateChanged,
+  } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+
+    import { 
+    getFirestore, 
+    collection, 
+    addDoc, 
+    getDocs,
+    updateDoc
+    } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+
+
+  // 🔑 GANTI dengan config dari Firebase kamu
+  const firebaseConfig = {
+    apiKey: "AIzaSyCU-cFfdkTw4m3CBVW2Ng_pOXz8ivvIU4E",
+    authDomain: "temperedlist.firebaseapp.com",
+    projectId: "temperedlist",
+    storageBucket: "temperedlist.firebasestorage.app",
+    messagingSenderId: "191609705338",
+    appId: "1:191609705338:web:293729cf40756d3e0dfcc3",
+    measurementId: "G-FYRF7E8VB8"
+  };
+
+  const app = initializeApp(firebaseConfig);
+  const db = getFirestore(app);
+  const auth = getAuth(app);
+  const provider = new GoogleAuthProvider();
+
+  let currentUser = null;
+  let userRole = null; // 🔥 WAJIB ADA
+  import { doc, getDoc } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+
+  window.approveUser = async function(uid) {
+  try {
+
+    await updateDoc(doc(db, "users", uid), {
+      status: "active"
+    });
+
+    alert("User berhasil diverifikasi!");
+
+    loadUsers();
+
+  } catch (e) {
+    console.error(e);
+    alert(e.message);
+  }
+};
+
+  // 👉 LOGIN
+  window.loginGoogle = function () {
+    signInWithPopup(auth, provider)
+      .then((result) => {
+        console.log("Login sukses:", result.user);
+      })
+      .catch((error) => {
+        console.error(error);console.error("Login error:", error);
+        alert(error.message); // 🔥 tampilkan error ke user
+      });
+  };
+
+  // 👉 LOGOUT
+ window.logoutUser = function () {
+  signOut(auth).then(() => {
+    window.location.href = "auth.html";
+  });
+};
+
+  // 👉 CEK STATUS LOGIN
+onAuthStateChanged(auth, async (user) => {
+  const profile = document.getElementById("profileArea");
+  currentUser = user;
+
+  // ❌ kalau belum login → lempar ke auth
+  if (!user) {
+    window.location.href = "auth.html";
+    return;
+  }
+
+  try {
+    // 🔥 ambil role dari Firestore
+    const docRef = doc(db, "users", user.uid);
+    const docSnap = await getDoc(docRef);
+
+    if (docSnap.exists()) {
+      userRole = docSnap.data().role;
+    } else {
+      userRole = "karyawan";
+    }
+
+    // tampilkan profile
+    profile.innerHTML = `
+      <img src="${user.photoURL}" class="w-8 h-8 rounded-full">
+      <span class="text-sm">${userRole}</span>
+      <button onclick="logoutUser()" class="text-red-500">Logout</button>
+    `;
+
+    updateUIByRole();
+
+  } catch (e) {
+    console.error(e);
+    alert("Gagal ambil data user");
+  }
+});
+      window.toggleForm = function () {
+  const form = document.getElementById("inputData");
+  form.classList.toggle("hidden");
+};
+
+
+    // ✅ TAMBAH DATA (FIX)
+  window.tambahData = async function () {
+
+  if (!currentUser) {
+    alert("Login dulu!");
+    return;
+  }
+  if (userRole === "karyawan") {
+  alert("Kamu tidak punya akses!");
+  return;
+}
+
+  // ambil value dari input
+  const nama_hp = document.getElementById("nama_hp").value;
+  const tipe = document.getElementById("tipe").value;
+  const layar = document.getElementById("layar").value;
+  const tempered = document.getElementById("tempered").value;
+
+  // validasi sederhana
+  if (!nama_hp.trim() || !tipe.trim() || !layar.trim() || !tempered.trim()) {
+    alert("Semua field harus diisi!");
+    return;
+  }
+
+  try {
+    await addDoc(collection(db, "tempered_glass"), {
+      nama_hp,
+      tipe,
+      layar,
+      tempered
+    });
+
+    alert("Data berhasil ditambahkan!");
+
+    // reset input
+    document.getElementById("nama_hp").value = "";
+    document.getElementById("tipe").value = "";
+    document.getElementById("layar").value = "";
+    document.getElementById("tempered").value = "";
+
+    loadData();
+  } catch (e) {
+    console.error(e);
+    alert(e.message);
+  }
+};
+
+  async function loadData() {
+
+  const container = document.getElementById("dataList");
+
+  const querySnapshot = await getDocs(
+    collection(db, "tempered_glass")
+  );
+
+  container.innerHTML = "";
+
+  querySnapshot.forEach((docSnap) => {
+
+    const item = docSnap.data();
+
+    container.innerHTML += `
+      <div class="bg-white p-4 rounded shadow mb-2">
+
+        <h2 class="font-bold">
+          ${item.nama_hp}
+        </h2>
+
+        <p>${item.tipe}</p>
+        <p>${item.layar}</p>
+
+        <p class="text-blue-500">
+          ${item.tempered}
+        </p>
+
+      </div>
+    `;
+  });
+}
+
+
+async function loadUsers() {
+  const container = document.getElementById("userList");
+  const querySnapshot = await getDocs(collection(db, "users"));
+
+  container.innerHTML = "";
+
+  querySnapshot.forEach((docSnap) => {
+    const data = docSnap.data();
+
+    container.innerHTML += `
+   <div class="flex justify-between items-center border-b py-2">
+
+    <div>
+      <p class="text-sm font-bold">${data.email}</p>
+      <p class="text-xs text-gray-500">
+        Role: ${data.role}
+      </p>
+
+      <p class="text-xs">
+        Status: ${data.status || "pending"}
+      </p>
+    </div>
+
+    <div class="flex gap-2">
+
+      <select onchange="ubahRole('${docSnap.id}', this.value)"
+      class="border p-1 text-sm">
+
+        <option value="karyawan"
+        ${data.role === "karyawan" ? "selected" : ""}>
+        Karyawan
+        </option>
+
+        <option value="admin_acc1"
+        ${data.role === "admin_acc1" ? "selected" : ""}>
+        Admin Acc 1
+        </option>
+
+        <option value="administrator"
+        ${data.role === "administrator" ? "selected" : ""}>
+        Administrator
+        </option>
+
+      </select>
+
+      <!-- 🔥 TOMBOL APPROVE -->
+      <button
+        onclick="approveUser('${docSnap.id}')"
+        class="bg-green-500 text-white px-2 py-1 rounded text-sm">
+
+        Approve
+      </button>
+
+    </div>
+  </div>
+    `;
+  });
+};
+
+window.ubahRole = async function (uid, roleBaru) {
+  try {
+    await updateDoc(doc(db, "users", uid), {
+      role: roleBaru
+    });
+
+    alert("Role berhasil diubah!");
+    loadUsers();
+
+  } catch (e) {
+    console.error(e);
+    alert("Gagal update role");
+  }
+};
+
+window.openSettings = function () {
+
+  if (userRole !== "administrator") {
+    alert("Hanya admin!");
+    return;
+  }
+
+  document
+    .getElementById("settingsPage")
+    .classList.remove("hidden");
+
+  loadUsers();
+};
+
+window.closeSettings = function () {
+  document
+    .getElementById("settingsPage")
+    .classList.add("hidden");
+};
+
+function updateUIByRole() {
+  const btn = document.getElementById("btnTambah");
+  const adminPanel = document.getElementById("adminPanel");
+
+  if (!currentUser || userRole === "karyawan") {
+    btn.style.display = "none";
+    adminPanel.classList.add("hidden");
+  } else {
+    btn.style.display = "block";
+  }
+
+  // 👑 hanya administrator
+  if (userRole === "administrator") {
+    adminPanel.classList.remove("hidden");
+    loadUsers(); // 🔥 load data user
+  } else {
+    adminPanel.classList.add("hidden");
+  }
+}
+
+  loadData();
+</script>
 
 </body>
 </html>
