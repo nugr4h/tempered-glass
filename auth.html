@@ -2,103 +2,110 @@
 <html lang="id">
 <head>
   <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Login</title>
+
   <script src="https://cdn.tailwindcss.com"></script>
 </head>
 
 <body class="bg-gray-100 flex items-center justify-center min-h-screen">
 
-<div class="bg-white p-6 rounded shadow w-80">
-  <h2 id="title" class="text-xl font-bold mb-4 text-center">Login</h2>
+  <div class="bg-white p-6 rounded shadow w-80">
 
-  <!-- LOGIN -->
-  <div id="loginForm">
-    <input id="loginEmail" placeholder="Email" class="border p-2 w-full mb-2">
-    <input id="loginPassword" type="password" placeholder="Password" class="border p-2 w-full mb-2">
+    <h2 id="title"
+    class="text-xl font-bold mb-4 text-center">
 
-    <button onclick="login()" class="bg-blue-500 text-white w-full py-2 rounded">
       Login
-    </button>
 
-    <button onclick="loginGoogle()" class="mt-2 border w-full py-2 rounded">
-      Login Google
-    </button>
+    </h2>
 
-    <p class="text-sm mt-3 text-center">
-      Belum punya akun? 
-      <span onclick="showRegister()" class="text-blue-500 cursor-pointer">Daftar</span>
-    </p>
+    <!-- LOGIN -->
+    <div id="loginForm">
+
+      <input
+      id="loginEmail"
+      placeholder="Email"
+      class="border p-2 w-full mb-2">
+
+      <input
+      id="loginPassword"
+      type="password"
+      placeholder="Password"
+      class="border p-2 w-full mb-2">
+
+      <button
+      onclick="login()"
+      class="bg-blue-500 text-white w-full py-2 rounded">
+
+        Login
+
+      </button>
+
+      <button
+      onclick="loginGoogle()"
+      class="mt-2 border w-full py-2 rounded">
+
+        Login Google
+
+      </button>
+
+      <p class="text-sm mt-3 text-center">
+
+        Belum punya akun?
+
+        <span
+        onclick="showRegister()"
+        class="text-blue-500 cursor-pointer">
+
+          Daftar
+
+        </span>
+
+      </p>
+
+    </div>
+
+    <!-- REGISTER -->
+    <div id="registerForm" class="hidden">
+
+      <input
+      id="regEmail"
+      placeholder="Email"
+      class="border p-2 w-full mb-2">
+
+      <input
+      id="regPassword"
+      type="password"
+      placeholder="Password"
+      class="border p-2 w-full mb-2">
+
+      <button
+      onclick="register()"
+      class="bg-green-500 text-white w-full py-2 rounded">
+
+        Daftar
+
+      </button>
+
+      <p class="text-sm mt-3 text-center">
+
+        Sudah punya akun?
+
+        <span
+        onclick="showLogin()"
+        class="text-blue-500 cursor-pointer">
+
+          Login
+
+        </span>
+
+      </p>
+
+    </div>
+
   </div>
 
-  <!-- REGISTER -->
-  <div id="registerForm" class="hidden">
-    <input id="regEmail" placeholder="Email" class="border p-2 w-full mb-2">
-    <input id="regPassword" type="password" placeholder="Password" class="border p-2 w-full mb-2">
-
-    <button onclick="register()" class="bg-green-500 text-white w-full py-2 rounded">
-      Daftar
-    </button>
-
-    <p class="text-sm mt-3 text-center">
-      Sudah punya akun? 
-      <span onclick="showLogin()" class="text-blue-500 cursor-pointer">Login</span>
-    </p>
-  </div>
-</div>
-
-<script type="module" src="js/auth.js"></script>
+  <script type="module" src="js/auth.js"></script>
 
 </body>
-=======
-<!DOCTYPE html>
-<html lang="id">
-<head>
-  <meta charset="UTF-8">
-  <title>Login</title>
-  <script src="https://cdn.tailwindcss.com"></script>
-</head>
-
-<body class="bg-gray-100 flex items-center justify-center min-h-screen">
-
-<div class="bg-white p-6 rounded shadow w-80">
-  <h2 id="title" class="text-xl font-bold mb-4 text-center">Login</h2>
-
-  <!-- LOGIN -->
-  <div id="loginForm">
-    <input id="loginEmail" placeholder="Email" class="border p-2 w-full mb-2">
-    <input id="loginPassword" type="password" placeholder="Password" class="border p-2 w-full mb-2">
-
-    <button onclick="login()" class="bg-blue-500 text-white w-full py-2 rounded">
-      Login
-    </button>
-
-    <button onclick="loginGoogle()" class="mt-2 border w-full py-2 rounded">
-      Login Google
-    </button>
-
-    <p class="text-sm mt-3 text-center">
-      Belum punya akun? 
-      <span onclick="showRegister()" class="text-blue-500 cursor-pointer">Daftar</span>
-    </p>
-  </div>
-
-  <!-- REGISTER -->
-  <div id="registerForm" class="hidden">
-    <input id="regEmail" placeholder="Email" class="border p-2 w-full mb-2">
-    <input id="regPassword" type="password" placeholder="Password" class="border p-2 w-full mb-2">
-
-    <button onclick="register()" class="bg-green-500 text-white w-full py-2 rounded">
-      Daftar
-    </button>
-
-    <p class="text-sm mt-3 text-center">
-      Sudah punya akun? 
-      <span onclick="showLogin()" class="text-blue-500 cursor-pointer">Login</span>
-    </p>
-  </div>
-</div>
-<script type="module" src="js/auth.js"></script>
-
-</body>
-
 </html>
