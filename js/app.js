@@ -438,7 +438,7 @@ window.ubahRole = async function(uid, roleBaru) {
 // =========================
 // TOGGLE SEARCH MOBILE
 // =========================
-window.toggleSearch = function () {
+function toggleSearch() {
 
   const searchBox =
     document.getElementById("searchbox");
