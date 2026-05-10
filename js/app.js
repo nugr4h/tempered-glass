@@ -1,5 +1,5 @@
-import { auth, db } from "/js/firebase.js";
-import { updateUIByRole } from "/js/settings.js";
+import { auth, db } from "./firebase.js";
+import { updateUIByRole } from "./settings.js";
 
 import {
   onAuthStateChanged,
