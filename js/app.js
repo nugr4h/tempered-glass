@@ -88,7 +88,7 @@ onAuthStateChanged(auth, async (user) => {
 
     console.error(e);
 
-    alert("Gagal ambil data user");
+    alert(e.message);
 
   }
 
@@ -147,44 +147,62 @@ window.toggleForm = function () {
 // =========================
 // LOAD DATA
 // =========================
+let allData = [];
 async function loadData() {
-
-  const container =
-    document.getElementById("dataList");
 
   const querySnapshot =
     await getDocs(
       collection(db, "tempered_glass")
     );
 
-  container.innerHTML = "";
+  allData = [];
 
   querySnapshot.forEach((docSnap) => {
 
     const item = docSnap.data();
 
+    allData.push({
+      id: docSnap.id,
+      ...item
+    });
+
+  });
+
+  renderData(allData);
+
+}
+
+function renderData(data) {
+
+  const container =
+    document.getElementById("dataList");
+
+  container.innerHTML = "";
+
+  data.forEach((item) => {
+
     container.innerHTML += `
 
-  <div class="bg-white p-4 rounded shadow mb-2">
+    <div class="bg-white p-4 rounded shadow mb-2">
 
-    <h2 class="font-bold text-lg">
-      ${item.nama_hp}
-    </h2>
+      <h2 class="font-bold text-lg">
+        ${item.nama_hp}
+      </h2>
 
-    <p>${item.tipe}</p>
+      <p>${item.tipe}</p>
 
-    <p>${item.layar}</p>
+      <p>${item.layar}</p>
 
-    <p class="text-blue-500">
-      ${item.tempered}
-    </p>
+      <p class="text-blue-500">
+        ${item.tempered}
+      </p>
 
-    ${
-      userRole === "administrator"
-      ? `
-      <button
-      class="editBtn mt-3 bg-yellow-500 text-white px-3 py-1 rounded"
-        data-id="${docSnap.id}"
+      ${
+        userRole === "administrator"
+        ? `
+        <button
+        class="editBtn mt-3 bg-yellow-500 text-white px-3 py-1 rounded"
+        data-id="${item.id}"
         data-nama="${item.nama_hp}"
         data-tipe="${item.tipe}"
         data-layar="${item.layar}"
@@ -192,34 +210,87 @@ async function loadData() {
 
         <i class="bi bi-pencil-fill"></i>
 
-      </button>
-      `
-      : ""
-    }
+        </button>
+        `
+        : ""
+      }
 
-  </div>
+    </div>
 
-`;
+    `;
 
   });
+
   document.querySelectorAll(".editBtn")
-.forEach((btn) => {
+  .forEach((btn) => {
 
-  btn.addEventListener("click", () => {
+    btn.addEventListener("click", () => {
 
-    window.editData(
-      btn.dataset.id,
-      btn.dataset.nama,
-      btn.dataset.tipe,
-      btn.dataset.layar,
-      btn.dataset.tempered
-    );
+      window.editData(
+        btn.dataset.id,
+        btn.dataset.nama,
+        btn.dataset.tipe,
+        btn.dataset.layar,
+        btn.dataset.tempered
+      );
+
+    });
 
   });
 
-});
 }
 
+// =========================
+// TOGGLE SEARCH
+// =========================
+window.toggleSearch = function () {
+
+  const searchBox =
+    document.getElementById("searchbox");
+
+  const input =
+    document.getElementById("searchInput");
+
+  // buka
+  if (searchBox.classList.contains("hidden")) {
+
+    searchBox.classList.remove("hidden");
+
+    setTimeout(() => {
+
+      searchBox.classList.remove(
+        "opacity-0",
+        "-translate-y-5"
+      );
+
+    }, 10);
+
+    // autofocus
+    setTimeout(() => {
+
+      input.focus();
+
+    }, 200);
+
+  }
+
+  // tutup
+  else {
+
+    searchBox.classList.add(
+      "opacity-0",
+      "-translate-y-5"
+    );
+
+    setTimeout(() => {
+
+      searchBox.classList.add("hidden");
+
+    }, 300);
+
+  }
+
+};
 
 // =========================
 // TAMBAH DATA
@@ -364,5 +435,104 @@ window.ubahRole = async function(uid, roleBaru) {
 
 }
 
-loadData();
+// =========================
+// TOGGLE SEARCH MOBILE
+// =========================
+window.toggleSearch = function () {
 
+  const searchBox =
+    document.getElementById("searchbox");
+
+  const input =
+    document.getElementById("searchInput");
+
+  // buka
+  if (searchBox.classList.contains("hidden")) {
+
+    searchBox.classList.remove("hidden");
+
+    setTimeout(() => {
+
+      searchBox.classList.remove(
+        "opacity-0",
+        "-translate-y-5"
+      );
+
+      searchBox.classList.add(
+        "opacity-100",
+        "translate-y-0"
+      );
+
+      input.focus();
+
+    }, 10);
+
+  }
+
+  // tutup
+  else {
+
+    searchBox.classList.remove(
+      "opacity-100",
+      "translate-y-0"
+    );
+
+    searchBox.classList.add(
+      "opacity-0",
+      "-translate-y-5"
+    );
+
+    setTimeout(() => {
+
+      searchBox.classList.add("hidden");
+
+    }, 300);
+
+  }
+
+};
+
+
+// =========================
+// REALTIME SEARCH
+// =========================
+const searchInput =
+  document.getElementById("searchInput");
+
+if (searchInput) {
+
+  searchInput.addEventListener("input", (e) => {
+
+    const keyword =
+      e.target.value.toLowerCase();
+
+    const filtered =
+      allData.filter((item) => {
+
+        return (
+
+          item.nama_hp
+          .toLowerCase()
+          .includes(keyword)
+
+          ||
+
+          item.tipe
+          .toLowerCase()
+          .includes(keyword)
+
+          ||
+
+          item.tempered
+          .toLowerCase()
+          .includes(keyword)
+
+        );
+
+      });
+
+    renderData(filtered);
+
+  });
+
+}
