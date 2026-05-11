@@ -52,20 +52,7 @@ window.openUserManagement = async function () {
 // MENU STOK GUDANG
 // =========================
 window.openStockPage = function () {
-
-  const container =
-    document.getElementById("settingsContent");
-
-  container.innerHTML = `
-    <h2 class="text-xl font-bold mb-4">
-      Stok Gudang
-    </h2>
-
-    <div class="bg-white p-4 rounded-xl shadow">
-      Data stok tempered glass nanti tampil di sini
-    </div>
-  `;
-
+  window.location.href = "stock.html";
 };
 
 // =========================
