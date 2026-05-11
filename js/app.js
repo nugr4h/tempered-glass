@@ -29,14 +29,10 @@ window.logoutUser = async function () {
 
 };
 
-
 // =========================
 // CEK LOGIN
 // =========================
 onAuthStateChanged(auth, async (user) => {
-
-  const profile =
-    document.getElementById("profileArea");
 
   currentUser = user;
 
@@ -69,21 +65,12 @@ onAuthStateChanged(auth, async (user) => {
 
     window.userRole = userRole;
 
-    profile.innerHTML = `
-
-      <img
-      src="${
-        user.photoURL ||
-        "https://ui-avatars.com/api/?name=User"
-      }"
-      class="w-8 h-8 rounded-full">
-
-    `;
- 
     updateUIByRole(userRole);
+
     updateProfileUI(user, userRole);
 
     await loadData();
+
   } catch (e) {
 
     console.error(e);
@@ -100,33 +87,100 @@ onAuthStateChanged(auth, async (user) => {
 // =========================
 function updateProfileUI(user, role) {
 
-  const profileImage =
-    document.getElementById("profileImage");
+  // MOBILE NAV
+  const navProfileImage =
+    document.getElementById("navProfileImage");
 
-  const profileName =
-    document.getElementById("profileName");
+  // DROPDOWN MOBILE
+  const dropdownProfileImage =
+    document.getElementById("dropdownProfileImage");
 
-  const profileRole =
-    document.getElementById("profileRole");
+  const dropdownProfileName =
+    document.getElementById("dropdownProfileName");
 
-  if (!profileImage) return;
+  const dropdownProfileRole =
+    document.getElementById("dropdownProfileRole");
 
-  profileImage.src =
-    user.photoURL ||
-    "https://i.pravatar.cc/150";
+  // SIDEBAR DESKTOP
+  const sidebarProfileImage =
+    document.getElementById("sidebarProfileImage");
 
-  profileName.innerText =
-    user.email;
+  const sidebarProfileName =
+    document.getElementById("sidebarProfileName");
 
-  profileRole.innerText =
-    role;
+  const sidebarProfileRole =
+    document.getElementById("sidebarProfileRole");
 
-  if (role === "administrator") {
+  // POPUP PROFILE
+  const popupProfileImage =
+    document.getElementById("popupProfileImage");
 
-    document
-      .getElementById("adminMenu")
-      .classList.remove("hidden");
-        
+  const popupProfileName =
+    document.getElementById("popupProfileName");
+
+  const popupProfileRole =
+    document.getElementById("popupProfileRole");
+
+  // ======================
+  // MOBILE NAV
+  // ======================
+  if (navProfileImage) {
+
+    navProfileImage.src =
+      user.photoURL ||
+      "https://i.pravatar.cc/150";
+
+  }
+
+  // ======================
+  // DROPDOWN
+  // ======================
+  if (dropdownProfileImage) {
+
+    dropdownProfileImage.src =
+      user.photoURL ||
+      "https://i.pravatar.cc/150";
+
+    dropdownProfileName.innerText =
+      user.email;
+
+    dropdownProfileRole.innerText =
+      role;
+
+  }
+
+  // ======================
+  // SIDEBAR
+  // ======================
+  if (sidebarProfileImage) {
+
+    sidebarProfileImage.src =
+      user.photoURL ||
+      "https://i.pravatar.cc/150";
+
+    sidebarProfileName.innerText =
+      user.email;
+
+    sidebarProfileRole.innerText =
+      role;
+
+  }
+
+  // ======================
+  // POPUP
+  // ======================
+  if (popupProfileImage) {
+
+    popupProfileImage.src =
+      user.photoURL ||
+      "https://i.pravatar.cc/150";
+
+    popupProfileName.innerText =
+      user.email;
+
+    popupProfileRole.innerText =
+      role;
+
   }
 
 }
@@ -183,7 +237,7 @@ function renderData(data) {
 
     container.innerHTML += `
 
-    <div class="bg-white p-4 rounded shadow mb-2">
+    <div class="bg-white p-4 rounded-xl shadow-md mb-3">
 
       <h2 class="font-bold text-lg">
         ${item.nama_hp}
@@ -369,48 +423,77 @@ window.editData = async function (
   temperedLama
 ) {
 
+  // buka form
+  document
+    .getElementById("inputData")
+    .classList.remove("hidden");
+
+  // ambil input
   const nama_hp =
-    prompt("Nama HP", namaLama);
+    document.getElementById("nama_hp");
 
   const tipe =
-    prompt("Tipe", tipeLama);
+    document.getElementById("tipe");
 
   const layar =
-    prompt("Ukuran layar", layarLama);
+    document.getElementById("layar");
 
   const tempered =
-    prompt("Tempered Glass", temperedLama);
+    document.getElementById("tempered");
 
-  if (
-    !nama_hp ||
-    !tipe ||
-    !layar ||
-    !tempered
-  ) return;
+  // isi data lama
+  nama_hp.value = namaLama;
+  tipe.value = tipeLama;
+  layar.value = layarLama;
+  tempered.value = temperedLama;
 
-  try {
+  // tombol simpan
+  const saveBtn =
+    document.getElementById("saveBtn");
 
-    await updateDoc(
-      doc(db, "tempered_glass", id),
-      {
-        nama_hp,
-        tipe,
-        layar,
-        tempered
-      }
-    );
+  saveBtn.innerText = "Update Data";
 
-    alert("Data berhasil diupdate!");
+  saveBtn.onclick = async () => {
 
-    loadData();
+    try {
 
-  } catch (e) {
+      await updateDoc(
+        doc(db, "tempered_glass", id),
+        {
+          nama_hp: nama_hp.value,
+          tipe: tipe.value,
+          layar: layar.value,
+          tempered: tempered.value
+        }
+      );
 
-    console.error(e);
+      alert("Data berhasil diupdate!");
 
-    alert(e.message);
+      // reset form
+      nama_hp.value = "";
+      tipe.value = "";
+      layar.value = "";
+      tempered.value = "";
 
-  }
+      saveBtn.innerText = "Simpan Data";
+
+      saveBtn.onclick = tambahData;
+
+      document
+        .getElementById("inputData")
+        .classList.add("hidden");
+
+      loadData();
+
+    } catch (e) {
+
+      console.error(e);
+
+      alert(e.message);
+
+    }
+
+  };
 
 };
 
@@ -435,62 +518,6 @@ window.ubahRole = async function(uid, roleBaru) {
 
 }
 
-// =========================
-// TOGGLE SEARCH MOBILE
-// =========================
-function toggleSearch() {
-
-  const searchBox =
-    document.getElementById("searchbox");
-
-  const input =
-    document.getElementById("searchInput");
-
-  // buka
-  if (searchBox.classList.contains("hidden")) {
-
-    searchBox.classList.remove("hidden");
-
-    setTimeout(() => {
-
-      searchBox.classList.remove(
-        "opacity-0",
-        "-translate-y-5"
-      );
-
-      searchBox.classList.add(
-        "opacity-100",
-        "translate-y-0"
-      );
-
-      input.focus();
-
-    }, 10);
-
-  }
-
-  // tutup
-  else {
-
-    searchBox.classList.remove(
-      "opacity-100",
-      "translate-y-0"
-    );
-
-    searchBox.classList.add(
-      "opacity-0",
-      "-translate-y-5"
-    );
-
-    setTimeout(() => {
-
-      searchBox.classList.add("hidden");
-
-    }, 300);
-
-  }
-
-};
 
 
 // =========================
@@ -527,6 +554,12 @@ if (searchInput) {
           .toLowerCase()
           .includes(keyword)
 
+          ||
+
+          item.layar
+          .toLowerCase()
+          .includes(keyword)
+
         );
 
       });
@@ -536,3 +569,30 @@ if (searchInput) {
   });
 
 }
+
+// =========================
+// PROFILE MENU
+// =========================
+window.toggleProfileMenu = function () {
+
+  document
+    .getElementById("profileDropdown")
+    .classList.toggle("hidden");
+
+};
+
+window.openProfilePopup = function () {
+
+  document
+    .getElementById("profilePopup")
+    .classList.remove("hidden");
+
+};
+
+window.closeProfilePopup = function () {
+
+  document
+    .getElementById("profilePopup")
+    .classList.add("hidden");
+
+};

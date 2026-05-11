@@ -110,18 +110,75 @@
 
   </div>
 
-  <!-- PROFILE -->
-  <div 
+  <!-- PROFILE MOBILE -->
+<div class="relative md:hidden">
 
-    id="profileArea"
-    class="flex items-center gap-2 rounded">
+  <button
+    onclick="toggleProfileMenu()"
+    id="profileButton"
+    class="flex items-center">
+
+    <img
+      id="navProfileImage"
+      class="w-9 h-9 rounded-full border">
+
+  </button>
+
+  <!-- DROPDOWN -->
+  <div
+    id="profileDropdown"
+    class="hidden absolute right-0 top-12 w-52 bg-white rounded-xl shadow-lg p-3 z-50">
+
+    <div class="flex items-center gap-3 mb-3">
+
+      <img
+        id="dropdownProfileImage"
+        class="w-10 h-10 rounded-full">
+
+      <div>
+
+        <h3
+          id="dropdownProfileName"
+          class="font-bold text-sm">
+        </h3>
+
+        <p
+          id="dropdownProfileRole"
+          class="text-xs text-gray-500">
+        </p>
+
+      </div>
+
+    </div>
+
+    <button
+      onclick="openSettings()"
+      class="w-full text-left px-3 py-2 rounded hover:bg-gray-100">
+
+      <i class="bi bi-gear mr-2"></i>
+      Pengaturan
+
+    </button>
+
+    <button
+      onclick="logoutUser()"
+      class="w-full text-left px-3 py-2 rounded text-red-500 hover:bg-red-50">
+
+      <i class="bi bi-box-arrow-right mr-2"></i>
+      Logout
+
+    </button>
+
   </div>
 
+</div>
+
+  
 </div>
 </header>
 
 <!-- CONTENT -->
-<main class="pt-20 md:ml-64 px-4">
+<main class="pt-20 md:ml-64 px-4 pb-24 max-w-5xl mx-auto">
 
   <h1 class="text-2xl font-bold mb-4">
     Daftar Tempered Glass
@@ -133,7 +190,7 @@
       id="btnTambah"
       style="display:none;"
       onclick="toggleForm()"
-      class="flex justify-center bg-green-500 text-white w-80 mx-10 my-8 px-3 py-3 rounded">
+      class="flex justify-center bg-green-500 text-white w-full max-w-sm mx-auto my-8 px-3 py-3 rounded">
 
       Tambah Data
 
@@ -160,6 +217,7 @@
       class="border p-2 w-full mb-2">
 
       <button
+        id="saveBtn"
         onclick="tambahData()"
         class="bg-green-500 text-white px-3 py-2 rounded w-full">
 
@@ -186,7 +244,7 @@
 
 <!-- SETTINGS -->
 <div id="settingsPage"
-class="hidden fixed inset-0 bg-gray-100 z-50 overflow-auto">
+class="hidden fixed inset-0 w-full h-full bg-gray-100 z-[999] overflow-y-auto">
 
   <!-- HEADER -->
   <div class="bg-white p-4 shadow flex justify-between items-center">
@@ -205,6 +263,64 @@ class="hidden fixed inset-0 bg-gray-100 z-50 overflow-auto">
     <div></div>
 
   </div>
+
+
+<!-- PROFILE POPUP -->
+<div
+  id="profilePopup"
+  class="hidden fixed inset-0 bg-black/40 z-50 flex items-center justify-center">
+
+  <div class="bg-white rounded-2xl p-6 w-80 shadow-xl">
+
+    <div class="flex flex-col items-center">
+
+      <img
+        id="popupProfileImage"
+        class="w-20 h-20 rounded-full border mb-3">
+
+      <h2
+        id="popupProfileName"
+        class="font-bold text-lg">
+      </h2>
+
+      <p
+        id="popupProfileRole"
+        class="text-gray-500 text-sm">
+      </p>
+
+    </div>
+
+    <div class="mt-6 space-y-2">
+
+      <button
+        onclick="openSettings()"
+        class="w-full bg-gray-100 py-2 rounded-lg">
+
+        Pengaturan
+
+      </button>
+
+      <button
+        onclick="logoutUser()"
+        class="w-full bg-red-500 text-white py-2 rounded-lg">
+
+        Logout
+
+      </button>
+
+      <button
+        onclick="closeProfilePopup()"
+        class="w-full bg-gray-300 py-2 rounded-lg">
+
+        Tutup
+
+      </button>
+
+    </div>
+
+  </div>
+
+</div>
 
   <!-- CONTENT -->
   <div class="p-4 space-y-4">
@@ -311,57 +427,62 @@ class="w-full bg-white p-4 rounded-xl shadow flex items-center justify-between">
 <!-- SIDEBAR -->
 <aside class="hidden md:flex fixed top-16 left-0 h-full w-64 bg-white shadow-lg flex-col p-4 z-40">
 
+  <!-- PROFILE DESKTOP -->
+<div class="hidden md:block mb-6">
+
+  <button
+    onclick="openProfilePopup()"
+    class="w-full flex items-center gap-3 p-3 rounded-xl hover:bg-gray-100 transition">
+
+    <img
+      id="sidebarProfileImage"
+      class="w-12 h-12 rounded-full border">
+
+    <div class="text-left">
+
+      <h3
+        id="sidebarProfileName"
+        class="font-bold text-sm">
+        User
+      </h3>
+
+      <p
+        id="sidebarProfileRole"
+        class="text-xs text-gray-500">
+        Role
+      </p>
+
+    </div>
+
+  </button>
+
   <div class="space-y-2">
 
-    <a href="#"
-    class="flex items-center gap-3 p-3 rounded-lg hover:bg-gray-100">
+  <a href="#"
+  class="flex items-center gap-3 p-3 rounded-lg hover:bg-gray-100">
 
-      <i class="bi bi-house text-lg"></i>
-      <span>Beranda</span>
+    <i class="bi bi-house text-lg"></i>
+    <span>Beranda</span>
 
-    </a>
+  </a>
 
-    <a href="#"
-    onclick="openSettings()"
-    class="flex items-center gap-3 p-3 rounded-lg hover:bg-gray-100">
+</div>
 
-      <i class="bi bi-gear text-lg"></i>
-      <span>Pengaturan</span>
-
-    </a>
-
-  </div>
-
+</div>
 </aside>
 
 <!-- MOBILE NAV -->
-<nav class="fixed bottom-0 left-0 w-full bg-white shadow md:hidden border-t">
+<nav class="fixed bottom-0 left-0 w-full bg-white shadow md:hidden border-t z-40">
 
   <div class="flex justify-around text-center text-sm py-2">
 
-    <a href="#"
-    class="flex flex-col items-center text-gray-700">
-
-      <i class="bi bi-house text-lg"></i>
-      <span>Beranda</span>
-
-    </a>
-
-    <a href="#"
-    onclick="openSettings()"
-    class="flex flex-col items-center text-gray-700">
-
-      <i class="bi bi-gear text-lg"></i>
-      <span>Pengaturan</span>
-
-    </a>
 
   </div>
 
 </nav>
 
 <script type="module" src="./js/app.js?v=3"></script>
-<script type="module" src="./js/settings.js"></script>
+<script type="module" src="./js/settings.js?v=3"></script>
 
 </body>
 </html>
