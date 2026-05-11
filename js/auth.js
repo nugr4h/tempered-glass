@@ -5,11 +5,11 @@ import {
   createUserWithEmailAndPassword,
   signInWithPopup,
   GoogleAuthProvider,
-  onAuthStateChanged
+  onAuthStateChanged,
+  signOut
 } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
 
 import { 
-  getFirestore, 
   doc, 
   setDoc,
   getDoc
@@ -20,11 +20,6 @@ const firebaseConfig = {
   authDomain: "temperedlist.firebaseapp.com",
   projectId: "temperedlist"
 };
-
-const app = initializeApp(firebaseConfig);
-
-const auth = getAuth(app);
-const db = getFirestore(app);
 
 const provider = new GoogleAuthProvider();
 
