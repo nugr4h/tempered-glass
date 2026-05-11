@@ -75,32 +75,52 @@ async function loadUsers() {
     userList.innerHTML += `
       <div class="bg-white p-4 rounded-xl shadow flex justify-between items-center">
 
-        <div>
+    <div>
 
-          <p class="font-bold">
-            ${data.email}
-          </p>
+      <p class="font-bold">
+        ${data.email}
+      </p>
 
-          <p class="text-sm text-gray-500">
-            ${data.role}
-          </p>
+      <p class="text-sm text-gray-500">
+        ${data.role}
+      </p>
 
-          <p class="text-sm">
-            Status:
-            ${data.status || "pending"}
-          </p>
+      <p class="text-sm">
+        Status:
+        ${data.status || "pending"}
+      </p>
 
-        </div>
+    </div>
 
-        <button
-          onclick="approveUser('${docSnap.id}')"
-          class="bg-green-500 text-white px-3 py-1 rounded">
+<div class="flex flex-col gap-2">
 
-          Approve
+  <button
+    onclick="approveUser('${docSnap.id}')"
+    class="bg-green-500 text-white px-3 py-1 rounded">
 
-        </button>
+    Approve
 
-      </div>
+  </button>
+
+  <select
+    onchange="ubahRole('${docSnap.id}', this.value)"
+    class="border px-2 py-1 rounded">
+
+    <option value="karyawan"
+      ${data.role === "karyawan" ? "selected" : ""}>
+      Karyawan
+    </option>
+
+    <option value="administrator"
+      ${data.role === "administrator" ? "selected" : ""}>
+      Administrator
+    </option>
+
+  </select>
+
+</div>
+
+  </div>
     `;
 
   });
@@ -148,6 +168,31 @@ export function updateUIByRole(userRole) {
   } else {
 
     btn.style.display = "none";
+
+  }
+
+}
+
+// =========================
+// UBAH ROLE
+// =========================
+window.ubahRole = async function(uid, roleBaru) {
+
+  try {
+
+    await updateDoc(doc(db, "users", uid), {
+      role: roleBaru
+    });
+
+    alert("Role berhasil diupdate!");
+
+    loadUsers();
+
+  } catch (e) {
+
+    console.error(e);
+
+    alert(e.message);
 
   }
 
