@@ -73,7 +73,7 @@ async function loadUsers() {
     const data = docSnap.data();
 
     userList.innerHTML += `
-      <div class="bg-white p-4 rounded-xl shadow flex justify-between items-center">
+      <div class="bg-white dark:bg-gray-800 transition-colors duration-300 p-4 rounded-xl shadow flex justify-between items-center">
 
     <div>
 
@@ -81,7 +81,7 @@ async function loadUsers() {
         ${data.email}
       </p>
 
-      <p class="text-sm text-gray-500">
+      <p class="text-sm text-gray-500 dark:text-gray-300 ">
         ${data.role}
       </p>
 

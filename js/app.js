@@ -87,9 +87,33 @@ onAuthStateChanged(auth, async (user) => {
 // =========================
 function updateProfileUI(user, role) {
 
+  const savedName =
+  localStorage.getItem("tg_name");
+
+  const savedPhoto =
+  localStorage.getItem("tg_photo");
+
   // MOBILE NAV
   const navProfileImage =
-    document.getElementById("navProfileImage");
+  document.getElementById("navProfileImage");
+
+  const adminDropdownMenu =
+  document.getElementById("adminDropdownMenu");
+
+  const adminPopupMenu =
+  document.getElementById("adminPopupMenu");
+
+if (userRole === "administrator") {
+
+  if (adminDropdownMenu) {
+    adminDropdownMenu.classList.remove("hidden");
+  }
+
+  if (adminPopupMenu) {
+    adminPopupMenu.classList.remove("hidden");
+  }
+
+}
 
   // DROPDOWN MOBILE
   const dropdownProfileImage =
@@ -127,8 +151,9 @@ function updateProfileUI(user, role) {
   if (navProfileImage) {
 
     navProfileImage.src =
+      savedPhoto ||
       user.photoURL ||
-      "https://i.pravatar.cc/150";
+      "https://i.pravatar.cc/150"
 
   }
 
@@ -138,11 +163,12 @@ function updateProfileUI(user, role) {
   if (dropdownProfileImage) {
 
     dropdownProfileImage.src =
+      savedPhoto ||
       user.photoURL ||
-      "https://i.pravatar.cc/150";
+      "https://i.pravatar.cc/150"
 
     dropdownProfileName.innerText =
-      user.email;
+      savedName || user.email;
 
     dropdownProfileRole.innerText =
       role;
@@ -155,11 +181,12 @@ function updateProfileUI(user, role) {
   if (sidebarProfileImage) {
 
     sidebarProfileImage.src =
+      savedPhoto ||
       user.photoURL ||
-      "https://i.pravatar.cc/150";
+      "https://i.pravatar.cc/150"
 
     sidebarProfileName.innerText =
-      user.email;
+      savedName || user.email;
 
     sidebarProfileRole.innerText =
       role;
@@ -172,11 +199,12 @@ function updateProfileUI(user, role) {
   if (popupProfileImage) {
 
     popupProfileImage.src =
-      user.photoURL ||
-      "https://i.pravatar.cc/150";
+      savedPhoto ||
+    user.photoURL ||
+    "https://i.pravatar.cc/150"
 
     popupProfileName.innerText =
-      user.email;
+      savedName || user.email;
 
     popupProfileRole.innerText =
       role;
@@ -237,7 +265,7 @@ function renderData(data) {
 
     container.innerHTML += `
 
-    <div class="bg-white p-4 rounded-xl shadow-md mb-3">
+    <div class="bg-white dark:bg-gray-800 transition-colors duration-300 p-4 rounded-xl shadow-md mb-3">
 
       <h2 class="font-bold text-lg">
         ${item.nama_hp}
@@ -594,5 +622,212 @@ window.closeProfilePopup = function () {
   document
     .getElementById("profilePopup")
     .classList.add("hidden");
+
+};
+
+// =========================
+// PROFILE SETTING
+// =========================
+window.openProfileSetting = function () {
+
+  const settingsContent =
+    document.getElementById("settingsContent");
+
+    if (!settingsContent) {
+  console.error("settingsContent tidak ditemukan");
+  return;
+}
+
+  settingsContent.innerHTML = `
+
+    <div class="bg-white dark:bg-gray-800 transition-colors duration-300 rounded-xl p-4 shadow">
+
+      <h2 class="text-xl font-bold mb-4">
+        Profile Setting
+      </h2>
+
+      <div class="space-y-3">
+
+        <input
+        id="editName"
+        type="text"
+        value="${localStorage.getItem("tg_name") || ""}"
+        placeholder="Nama"
+        class="w-full border p-3 rounded-lg">
+
+      <input
+        id="editPhoto"
+        type="text"
+        value="${localStorage.getItem("tg_photo") || ""}"
+        placeholder="URL Foto Profile"
+        class="w-full border p-3 rounded-lg">
+
+        <button
+          onclick="saveProfilePopup()"
+          class="w-full bg-blue-500 text-white py-3 rounded-lg">
+
+          Simpan Profile
+
+        </button>
+
+      </div>
+
+    </div>
+
+  `;
+
+  openSettings();
+
+};
+
+
+// =========================
+// SAVE PROFILE
+// =========================
+window.saveProfileSetting = function () {
+
+  const name =
+    document.getElementById("editName").value;
+
+  const photo =
+    document.getElementById("editPhoto").value;
+
+  // simpan local
+  localStorage.setItem("tg_name", name);
+  localStorage.setItem("tg_photo", photo);
+
+  // update profile navbar
+  const images = [
+
+    "navProfileImage",
+    "dropdownProfileImage",
+    "sidebarProfileImage",
+    "popupProfileImage",
+    "profileImage"
+
+  ];
+
+  images.forEach((id) => {
+
+    const img =
+      document.getElementById(id);
+
+    if (img && photo) {
+
+      img.src = photo;
+
+    }
+
+  });
+
+  const names = [
+
+    "dropdownProfileName",
+    "sidebarProfileName",
+    "popupProfileName",
+    "profileName"
+
+  ];
+
+  names.forEach((id) => {
+
+    const el =
+      document.getElementById(id);
+
+    if (el && name) {
+
+      el.innerText = name;
+
+    }
+
+  });
+
+  alert("Profile berhasil diupdate!");
+
+};
+
+
+// =========================
+// THEME
+// =========================
+window.openThemeSetting = function () {
+
+  const settingsContent =
+    document.getElementById("settingsContent");
+
+if (!settingsContent) {
+  console.error("settingsContent tidak ditemukan");
+  return;
+}
+
+  settingsContent.innerHTML = `
+
+    <div class="bg-white dark:bg-gray-800 transition-colors duration-300 rounded-xl p-4 shadow">
+
+      <h2 class="text-xl font-bold mb-4">
+        Theme
+      </h2>
+
+      <div class="space-y-3">
+
+        <button
+          onclick="setTheme('light')"
+          class="w-full bg-gray-100 py-3 rounded-lg">
+
+          ☀️ Light Mode
+
+        </button>
+
+        <button
+          onclick="setTheme('dark')"
+          class="w-full bg-gray-900 text-white py-3 rounded-lg">
+
+          🌙 Dark Mode
+
+        </button>
+
+      </div>
+
+    </div>
+
+  `;
+
+  openSettings();
+
+};
+
+
+// =========================
+// LOAD THEME
+// =========================
+const savedTheme =
+  localStorage.getItem("tg_theme");
+
+if (savedTheme) {
+
+  setTheme(savedTheme);
+
+}
+// =========================
+// OPEN SETTINGS
+// =========================
+window.openSettings = function () {
+
+  const settingsPage =
+    document.getElementById("settingsPage");
+
+  settingsPage.classList.remove("hidden");
+
+};
+
+// =========================
+// CLOSE SETTINGS
+// =========================
+window.closeSettings = function () {
+
+  const settingsPage =
+    document.getElementById("settingsPage");
+
+  settingsPage.classList.add("hidden");
 
 };

@@ -26,7 +26,7 @@ async function loadStock() {
 
         stockList.innerHTML += `
 
-        <div class="bg-white p-4 rounded shadow mb-3">
+        <div class="bg-white dark:bg-gray-800 transition-colors duration-300 p-4 rounded shadow mb-3">
 
             <h2 class="font-bold text-lg">
             ${item.nama_tempered}
